@@ -170,7 +170,7 @@ void c------------------------------() {}
 void MainWindow::UpdateSpritesTree()
 {
   wxTreeItemId id, root, parent;
-  int g, s;
+  int s;
   std::vector<std::string> expanded;
 
   // record which groups are expanded
@@ -198,7 +198,7 @@ void MainWindow::UpdateSpritesTree()
   // add all groups into tree
   fGroupTreeIDs.MakeEmpty();
 
-  for (g = 0;g<gd.groupnames.size(); g++)
+  for (size_t g = 0;g<gd.groupnames.size(); g++)
   {
     const char *groupname = gd.groupnames.at(g).c_str();
     if (!groupname)
@@ -273,7 +273,7 @@ void MainWindow::UpdateSpritesTree()
 void MainWindow::UpdateSheetsList()
 {
   fSheetsList->Clear();
-  for (int i = 0; i< gd.sheetfiles.size(); i++)
+  for (size_t i = 0; i< gd.sheetfiles.size(); i++)
   {
     const char *str = gd.sheetfiles.at(i).c_str();
     fSheetsList->Append(wxString(str, wxConvUTF8));
@@ -457,7 +457,6 @@ void MainWindow::OnTreeEndDrag(wxTreeEvent &evt)
   SpriteTreeData *targetdata;
   SpriteRecord *target;
   int targetindex, insertgroup, insertmode;
-  int i;
 
   stat("OnTreeEndDrag()");
   fDragging = false;
@@ -529,7 +528,7 @@ void MainWindow::OnTreeEndDrag(wxTreeEvent &evt)
   stat("nitems to move: %d", fDragSelections.Count());
   std::vector<SpriteRecord*> movelist;
   std::vector<int> movegrouplist;
-  for (i = 0; i < fDragSelections.Count(); i++)
+  for (size_t i = 0; i < fDragSelections.Count(); i++)
   {
     SpriteTreeData *data = (SpriteTreeData *)fSpritesTree->GetItemData(fDragSelections[i]);
     if (!data)
@@ -587,7 +586,7 @@ void MainWindow::OnTreeEndDrag(wxTreeEvent &evt)
   }
 
   // remove all sprites to be moved from the list
-  for (int i = 0; i < movelist.size(); i++)
+  for (size_t i = 0; i < movelist.size(); i++)
   {
     spritelist.RemoveSprite((SpriteRecord *)movelist.at(i));
   }
@@ -604,7 +603,7 @@ void MainWindow::OnTreeEndDrag(wxTreeEvent &evt)
   // reinsert all sprites to be moved below the target spriteno
   if (insertmode == AFTER)
     targetindex++;
-  for (int i = 0; i < movelist.size(); i++)
+  for (size_t i = 0; i < movelist.size(); i++)
   {
     SpriteRecord *sprite = (SpriteRecord *)movelist.at(i);
     sprite->group        = insertgroup;
@@ -651,7 +650,7 @@ void MainWindow::OnTreeMenu(wxTreeEvent &evt)
   {
     // "Send To"
     wxMenu *sendto = new wxMenu;
-    for (int i = 0; i < gd.groupnames.size(); i++)
+    for (size_t i = 0; i < gd.groupnames.size(); i++)
     {
       const char *name = gd.groupnames.at(i).c_str();
       sendto->Append(ID_MENU_SEND_TO + i, wxString(name, wxConvUTF8));
@@ -721,14 +720,14 @@ void MainWindow::OnTreeMenuResponse(wxCommandEvent &evt)
   }
 
   // handle "Send To..." menu item
-  if (id >= ID_MENU_SEND_TO && id < ID_MENU_SEND_TO + gd.groupnames.size())
+  if (id >= ID_MENU_SEND_TO && id < ID_MENU_SEND_TO + (int)gd.groupnames.size())
   {
     int movetogroup = (id - ID_MENU_SEND_TO);
 
     wxArrayTreeItemIds selections;
     fSpritesTree->GetSelections(selections);
 
-    for (int i = 0; i < selections.Count(); i++)
+    for (size_t i = 0; i < selections.Count(); i++)
     {
       SpriteTreeData *data = (SpriteTreeData *)fSpritesTree->GetItemData(selections[i]);
 
@@ -754,7 +753,7 @@ void c------------------------------() {}
 
 void MainWindow::OnSheetsListChoice(wxCommandEvent &evt)
 {
-  int newvalue = evt.GetSelection();
+  size_t newvalue = evt.GetSelection();
   if (newvalue >= 0 && newvalue < gd.sheetfiles.size())
   {
     CurSprite()->spritesheet = newvalue;
@@ -1247,7 +1246,7 @@ void MainWindow::PromptForGroupDelete(int delgroup)
 {
   char str[10000];
 
-  if (delgroup < 0 || delgroup >= gd.groupnames.size())
+  if (delgroup < 0 || delgroup >= (int)gd.groupnames.size())
   {
     staterr("PromptForGroupDelete: invalid delno %d", delgroup);
     return;
@@ -1268,7 +1267,7 @@ void MainWindow::PromptForGroupDelete(int delgroup)
 
   if (FindFirstSpriteInGroup(delgroup) != -1)
   {
-    sprintf(str, "Delete the group \"%s\"?", gd.groupnames.at(delgroup));
+    sprintf(str, "Delete the group \"%s\"?", gd.groupnames.at(delgroup).c_str());
 
     strcat(str, " All it's members will be kicked out to \"");
     strcat(str, gd.groupnames.at(kickgroup).c_str());
@@ -1398,6 +1397,7 @@ bool MainWindow::OnKeyUp(wxKeyEvent &event)
     gd.shift = false;
     fEditArea->UpdateCtrlShiftStates();
   }
+  return true;
 }
 
 void MainWindow::OnSize(wxSizeEvent &evt)

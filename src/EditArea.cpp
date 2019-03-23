@@ -903,7 +903,7 @@ void EditArea::HandleShiftMode(int px, int py)
 
 void EditArea::UpdateShiftStatusText()
 {
-  char *status = "Press CTRL=Sheet Offset, Shift=Size, CTRL+Shift=Offset All";
+  char *status = (char*)"Press CTRL=Sheet Offset, Shift=Size, CTRL+Shift=Offset All";
 
   switch (fShift.mode)
   {
@@ -912,7 +912,7 @@ void EditArea::UpdateShiftStatusText()
       break;
 
     case SM_OFFSET_ALL:
-      status = "Adjusting sheet offset of ALL frames in current sprite...drag!";
+      status = (char*)"Adjusting sheet offset of ALL frames in current sprite...drag!";
       break;
 
     case SM_SIZE:

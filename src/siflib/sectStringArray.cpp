@@ -43,7 +43,7 @@ uint8_t *SIFStringArraySect::Encode(std::vector<std::string> *strings, int *data
   }
 
   buf.Append16(strings->size());
-  for (int i = 0; i < strings->size(); i++)
+  for (size_t i = 0; i < strings->size(); i++)
   {
     std::string str = strings->at(i);
     WritePascalString(str, &buf);

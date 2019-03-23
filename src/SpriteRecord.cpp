@@ -55,7 +55,7 @@ void c------------------------------() {}
 
 SpriteRecord *SpriteList::SpriteAt(int index)
 {
-  if (index >= fList.size())
+  if (index >= (int)fList.size())
   {
     return NULL;
   }
@@ -69,7 +69,7 @@ int SpriteList::CountItems()
 
 void SpriteList::MakeEmpty()
 {
-  for (int i = 0; i<fList.size(); i++)
+  for (size_t i = 0; i<fList.size(); i++)
   {
     SpriteRecord *rec = SpriteAt(i);
     if (!rec)

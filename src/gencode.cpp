@@ -87,7 +87,7 @@ bool generate_assignsprites_cpp(const char *fname)
   return write_file_if_needed(output, fname);
 }
 
-static bool read_list_of_objtypes(const char *hfile, std::vector<std::string> *names)
+bool read_list_of_objtypes(const char *hfile, std::vector<std::string> *names)
 {
   FILE *fp;
   char line[1024];
@@ -157,18 +157,18 @@ bool write_file_if_needed(std::string& str, const char *fname)
 void c------------------------------() {}
 */
 
-static void init_hash()
+void init_hash()
 {
   hash = 0xac4279ae;
 }
 
-static void accum_hash(const char *str)
+void accum_hash(const char *str)
 {
   for (int i = 0; str[i]; i++)
     accum_hash(str[i]);
 }
 
-static void accum_hash(char ch)
+void accum_hash(char ch)
 {
   uint32_t msb;
 
@@ -184,7 +184,7 @@ static void accum_hash(char ch)
     hash++;
 }
 
-static uint32_t read_hash(const char *fname)
+uint32_t read_hash(const char *fname)
 {
   FILE *fp;
   char line[1024];
@@ -201,7 +201,7 @@ static uint32_t read_hash(const char *fname)
   return strtol(line + 8, NULL, 16);
 }
 
-static const char *get_timestamp()
+const char *get_timestamp()
 {
   char *str      = GetStaticStr();
   time_t curtime = time(NULL);

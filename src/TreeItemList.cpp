@@ -28,7 +28,7 @@ wxTreeItemId TreeItemList::RemoveItem(int index)
 
 bool TreeItemList::RemoveItem(wxTreeItemId id)
 {
-  for (int i = 0; i< fList.size(); i++)
+  for (size_t i = 0; i< fList.size(); i++)
   {
     Entry *entry = (Entry *)fList.at(i);
     if (!entry)
@@ -47,7 +47,7 @@ bool TreeItemList::RemoveItem(wxTreeItemId id)
 
 void TreeItemList::MakeEmpty()
 {
-  for (int i = 0; i< fList.size(); i++)
+  for (size_t i = 0; i< fList.size(); i++)
   {
     Entry *entry = (Entry *)fList.at(i);
     if (!entry)

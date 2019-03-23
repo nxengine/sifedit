@@ -28,7 +28,7 @@ void c------------------------------() {}
 
 void SIFLoader::ClearIndex()
 {
-  for (int i = 0; i < fIndex.size() ; i++)
+  for (size_t i = 0; i < fIndex.size() ; i++)
   {
     SIFIndexEntry *entry = (SIFIndexEntry *)fIndex.at(i);
     if (!entry)
@@ -104,7 +104,7 @@ bool SIFLoader::LoadHeader(const std::string& filename)
 uint8_t *SIFLoader::FindSection(int type, int *length_out)
 {
   // try and find the section in the index
-  for (int i = 0;i<fIndex.size(); i++)
+  for (size_t i = 0;i<fIndex.size(); i++)
   {
     SIFIndexEntry *entry = (SIFIndexEntry *)fIndex.at(i);
     if (!entry)
@@ -191,7 +191,7 @@ bool SIFLoader::EndSave(const std::string& filename)
   int indexlen = 5 + (fIndex.size() * 9);
 
   // write index table
-  for (int i = 0;i<fIndex.size(); i++)
+  for (size_t i = 0;i<fIndex.size(); i++)
   {
     SIFIndexEntry *entry = (SIFIndexEntry *)fIndex.at(i);
     if (!entry)
@@ -203,7 +203,7 @@ bool SIFLoader::EndSave(const std::string& filename)
   }
 
   // save actual section data
-  for (int i = 0;i<fIndex.size(); i++)
+  for (size_t i = 0;i<fIndex.size(); i++)
   {
     SIFIndexEntry *entry = (SIFIndexEntry *)fIndex.at(i);
     if (!entry)

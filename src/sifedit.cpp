@@ -102,7 +102,7 @@ bool load_sif(const char *fname)
   // assimilate all the loaded data together and copy it into our
   // list which holds a derived class of SIFSprite that also has additional
   // meta information not cared about by the game.
-  for (int s = 0; s < nsprites; s++)
+  for (size_t s = 0; s < (size_t)nsprites; s++)
   {
     SpriteRecord *spr = new SpriteRecord(&spritearray[s]);
 
@@ -454,7 +454,7 @@ void ReorderGroups(std::vector<int> *movelist, int insertafter)
   int old_to_new[gd.groupnames.size()];
   int gi = 0;
 
-  for (int i = 0; i < gd.groupnames.size(); i++)
+  for (size_t i = 0; i < gd.groupnames.size(); i++)
   {
     if (!f(*movelist,i))
     {
@@ -462,9 +462,9 @@ void ReorderGroups(std::vector<int> *movelist, int insertafter)
       old_to_new[i] = gi++;
     }
 
-    if (i == insertafter)
+    if (i == (size_t)insertafter)
     {
-      for (int j = 0; j < movelist->size(); j++)
+      for (size_t j = 0; j < movelist->size(); j++)
       {
         int index = (size_t)movelist->at(j);
         newgroups.push_back(gd.groupnames.at(index));
@@ -607,13 +607,13 @@ SIFDir *CurDir()
 int CurFrameCount()
 {
   SpriteRecord *spr = CurSprite();
-  return spr ? spr->nframes : NULL;
+  return spr ? spr->nframes : 0;
 }
 
 int CurDirCount()
 {
   SpriteRecord *spr = CurSprite();
-  return spr ? spr->ndirs : NULL;
+  return spr ? spr->ndirs : 0;
 }
 
 bool IsValidSprite(int s)
